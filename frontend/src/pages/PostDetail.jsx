@@ -1,6 +1,6 @@
 // src/components/PostDetail.jsx
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 
 const PostDetail = () => {
   const { id } = useParams();
@@ -23,13 +23,28 @@ const PostDetail = () => {
     fetchPost();
   }, [id]);
 
-  if (loading) return <p className="text-center mt-10">Loading...</p>;
-  if (!post) return <p className="text-center mt-10 text-red-500">Post not found.</p>;
+  if (loading)
+    return <p className="text-center mt-10 text-lg text-gray-600 animate-pulse">Loading...</p>;
+
+  if (!post)
+    return <p className="text-center mt-10 text-red-500 text-lg">Post not found.</p>;
 
   return (
-    <div className="max-w-3xl mx-auto p-6">
-      <h1 className="text-3xl font-bold text-blue-700 mb-4">{post.title}</h1>
-      <p className="text-gray-700">{post.content}</p>
+    <div className="min-h-screen bg-[#f9f5ff] py-10 px-4">
+      <div className="max-w-3xl mx-auto bg-white shadow-xl rounded-lg p-8">
+        <h1 className="text-3xl font-extrabold text-blue-500 mb-4">{post.title}</h1>
+        <p className="text-black text-lg leading-relaxed whitespace-pre-wrap">
+          {post.content}
+        </p>
+        <div className="mt-6">
+          <Link
+            to="/"
+            className="inline-block text-sm text-blue-500 hover:underline"
+          >
+            ← Back to posts
+          </Link>
+        </div>
+      </div>
     </div>
   );
 };

@@ -1,4 +1,5 @@
 import React, { useContext, useState } from "react";
+import { Link } from "react-router-dom";
 import { PostContext } from "../context/PostContext";
 
 const PostItem = ({ post }) => {
@@ -11,6 +12,11 @@ const PostItem = ({ post }) => {
     updatePost(post._id, { title: editTitle, content: editContent });
     setIsEditing(false);
   };
+
+  const shortContent =
+    post.content.length > 150
+      ? post.content.substring(0, 150) + "..."
+      : post.content;
 
   return (
     <div className="bg-white p-4 shadow-md rounded-md">
@@ -26,6 +32,7 @@ const PostItem = ({ post }) => {
             value={editContent}
             onChange={(e) => setEditContent(e.target.value)}
             className="w-full mb-2 p-2 border rounded"
+            rows={5}
           />
           <button
             onClick={handleUpdate}
@@ -43,7 +50,17 @@ const PostItem = ({ post }) => {
       ) : (
         <>
           <h2 className="text-xl font-bold mb-2">{post.title}</h2>
-          <p className="text-gray-700 mb-4">{post.content}</p>
+          <p className="text-gray-700 mb-4">
+            {shortContent}
+            {post.content.length > 150 && (
+              <Link
+                to={`/post/${post._id}`}
+                className="text-blue-600 underline ml-1 hover:text-blue-800"
+              >
+                Read more →
+              </Link>
+            )}
+          </p>
           <button
             onClick={() => setIsEditing(true)}
             className="bg-yellow-500 text-white px-3 py-1 mr-2 rounded hover:bg-yellow-600"
